@@ -5,7 +5,10 @@ function Home() {
   return (
     <div className="home-body">
       <TopBar />
-      <div className="column"></div>
+      <div className="main">
+        <div className="form-col"></div>
+        <div className="data-col"></div>
+      </div>
     </div>
   );
 }
