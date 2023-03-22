@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# SavourEase
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend web application for a food recommendation service
 
 ## Available Scripts
 
