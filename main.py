@@ -1,3 +1,4 @@
+import copy
 import json
 import numpy as np
 from pydantic import BaseModel
@@ -77,7 +78,7 @@ def get_recommendations(form: FormInput):
     input_vector.append((form.servings - min_serving) / (max_serving - min_serving))
     input_vector.append((form.total_time - min_time) / (max_time - min_time))
 
-    input_vectors = [input_vector for i in range(5)]
+    input_vectors = [copy.deepcopy(input_vector) for i in range(5)]
     
     input_lists = [
         form.ingredients + [form.course] + [form.diet] + [form.cuisine],
@@ -86,14 +87,13 @@ def get_recommendations(form: FormInput):
         [form.cuisine],
         form.ingredients,
         ]
-    print(input_lists)
     
-
+    response = {}
+    
     for i, category in enumerate(['similar dish','course','diet','cuisine','ingredients']):
-
+        
         for col in encoded_df.columns[2:]:
         # If the column is in the input list, set its value to 1, otherwise set it to 0
-            response = {}
             input_vectors[i].append(int(col in input_lists[i]))   
 
         similarity = cosine_similarity(encoded_df.to_numpy(), np.array(input_vectors[i]).reshape(1, -1))
