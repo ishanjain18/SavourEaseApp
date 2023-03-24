@@ -23,7 +23,7 @@ class FormInput(BaseModel):
 
 app = FastAPI()
 
-df = pd.read_csv('./datasets/data.csv', encoding='utf-8')
+df = pd.read_csv('./datasets/data.csv')
 encoded_df = pd.read_csv('./datasets/encoded.csv')
 
 app.add_middleware(
@@ -36,21 +36,26 @@ app.add_middleware(
 
 
 
-@app.get("/ingredients")
-def get_ingredients():
+@app.get("/options")
+def get_options():
 
-    # Creating a dataset of unique ingredients
-    unique_ingredients = {}
+    # Creating a list of unique ingredients
+    ingredient_categories = {}
     
     for ing_list in df['Ingredients']:
         for ingred in ast.literal_eval(ing_list):
-            unique_ingredients[ingred] = unique_ingredients.get(ingred, 0) + 1
+            ingredient_categories[ingred] = ingredient_categories.get(ingred, 0) + 1
     
     # filtering ingredients based on frequency in dataset 
     min_freq = 15
-    unique_ingredients = dict(filter(lambda x : x[1] > min_freq, unique_ingredients.items()))
+    ingredient_categories = dict(filter(lambda x : x[1] > min_freq, ingredient_categories.items()))
+    ingredient_categories = dict(sorted(ingredient_categories.items(), key=lambda x: x[1], reverse=True))
 
-    return {"ingredients": unique_ingredients}
+    categories = {"ingredients": list(ingredient_categories)}
+    for category in ['Diet', 'Cuisine', 'Course']:
+        categories[category.lower()] = sorted(df[category].unique().tolist())
+    return categories
+
 
 @app.get("/search")
 def get_suggestions():
