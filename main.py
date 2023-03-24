@@ -23,8 +23,8 @@ class FormInput(BaseModel):
 
 app = FastAPI()
 
-df = pd.read_csv('data.csv', encoding='utf-8')
-encoded_df = pd.read_csv('encoded.csv')
+df = pd.read_csv('./datasets/data.csv', encoding='utf-8')
+encoded_df = pd.read_csv('./datasets/encoded.csv')
 
 app.add_middleware(
     CORSMiddleware,
