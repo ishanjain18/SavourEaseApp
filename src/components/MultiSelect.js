@@ -1,71 +1,40 @@
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { capitalizeWords } from "../utilities/HelperFunctions";
 
-const MultiselectInput = ({ apiUrl }) => {
-  const [items, setItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+const MultiSelect = ({ options, setValue, label, placeholder }) => {
+  const [searchValue] = useState("");
+  const [choices, setChoices] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      console.log(data);
-      setItems(data.ingredients);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [apiUrl]);
+    const filteredOptions = options.filter((item) =>
+      item.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
-  const handleItemSelect = (item) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(
-        selectedItems.filter((selectedItem) => selectedItem !== item)
-      );
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
-  };
-
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(searchText.toLowerCase())
-  );
+    setChoices(filteredOptions);
+  }, [searchValue, options]);
 
   return (
     <div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          <input
-            type="text"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+      <Autocomplete
+        multiple
+        noOptionsText="No Options"
+        options={choices}
+        getOptionLabel={(choice) => capitalizeWords(choice)}
+        filterSelectedOptions
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            label={label}
+            placeholder={placeholder}
           />
-          <ul>
-            {filteredItems.map((item) => (
-              <li key={item.id}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(item)}
-                    onChange={() => handleItemSelect(item)}
-                  />
-                  {item.name} - {item.frequency}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        )}
+        onChange={(event, value) => setValue(value.map((item) => item))}
+      />
     </div>
   );
 };
 
-MultiselectInput.propTypes = {
-  apiUrl: PropTypes.string.isRequired,
-};
-
-export default MultiselectInput;
+export default MultiSelect;

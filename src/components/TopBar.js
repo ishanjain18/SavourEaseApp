@@ -22,11 +22,11 @@ function TopBar() {
       <div className="brand">
         <img src={logo} className="logo" alt="SavourEase" />
       </div>
-      <div className="search">
+      {/* <div className="search">
         {!isLoading && (
           <SearchComponent suggestions={suggestions}></SearchComponent>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
