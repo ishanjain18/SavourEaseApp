@@ -1,5 +1,4 @@
 import copy
-import json
 import numpy as np
 from pydantic import BaseModel
 from fastapi import FastAPI
@@ -7,18 +6,18 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import ast
-from typing import Optional, List
+from typing import List
 
 class Recipe(BaseModel): 
     recipe_name : str
 
 class FormInput(BaseModel):
     ingredients: List[str] = []
-    total_time: int = 0
-    servings: int = 0
-    course: str = ""
-    diet: str = ""
-    cuisine: str = ""
+    time: int 
+    servings: int
+    course: List[str] = []
+    diet: List[str] = []
+    cuisine: List[str] = []
     
 
 app = FastAPI()
@@ -58,12 +57,12 @@ def get_options():
 
 
 @app.get("/search")
-def get_suggestions():
+def get_search_options():
     return df['RecipeName'].tolist()
 
 
-@app.get('/recommendations')
-def get_recommendations(form: FormInput):
+@app.post('/recommendations')
+def fetch_recommendations(form: FormInput):
 
     # build form input into a encoded vector
 
@@ -81,15 +80,15 @@ def get_recommendations(form: FormInput):
     input_vector = []
     # Normalizing Servings and Total time columns
     input_vector.append((form.servings - min_serving) / (max_serving - min_serving))
-    input_vector.append((form.total_time - min_time) / (max_time - min_time))
+    input_vector.append((form.time - min_time) / (max_time - min_time))
 
     input_vectors = [copy.deepcopy(input_vector) for i in range(5)]
     
     input_lists = [
-        form.ingredients + [form.course] + [form.diet] + [form.cuisine],
-        [form.course], 
-        [form.diet],
-        [form.cuisine],
+        form.ingredients + form.course + form.diet + form.cuisine,
+        form.course, 
+        form.diet,
+        form.cuisine,
         form.ingredients,
         ]
     
