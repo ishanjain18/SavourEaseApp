@@ -102,7 +102,7 @@ def fetch_recommendations(form: FormInput):
 
         similarity = cosine_similarity(encoded_df.to_numpy(), np.array(input_vectors[i]).reshape(1, -1))
 
-        sorted_indices = similarity.argsort(axis=0)[::-1][:5]
+        sorted_indices = similarity.argsort(axis=0)[::-1][:6]
 
         # Get the indices of the 5 most similar rows
         most_similar_indices = sorted_indices.flatten()
