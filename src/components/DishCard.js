@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function MediaCard({ dishData }) {
+export default function DishCard({ dishData }) {
   return (
     <Card
       sx={{ minWidth: 345, width: 345, height: 310, padding: 1, margin: 2 }}

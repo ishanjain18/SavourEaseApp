@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import "../static/Home.css";
 import { useState } from "react";
 import FormGroup from "../components/FormGroup";
-import DishCard from "../components/DishCard";
+import CategoryRow from "../components/CategoryRow.js";
+import IntroContainer from "../components/IntroContainer";
 
 function Home() {
   const [recommendations, setRecommendations] = useState({});
@@ -13,7 +14,6 @@ function Home() {
   useEffect(() => {
     if (Object.keys(recommendations).length > 0) {
       setShowCard(true);
-      console.log(showCard);
     }
   }, [recommendations]);
 
@@ -28,12 +28,16 @@ function Home() {
           />
         </div>
         <div className="data-col">
-          {Object.keys(recommendations).map((category) => {
-            return Object.keys(recommendations[category]).map((recipe) => {
-              console.log(recommendations[category][recipe]);
-              return <DishCard dishData={recommendations[category][recipe]} />;
-            });
-          })}
+          {!showCard && <IntroContainer />}
+          {showCard &&
+            Object.keys(recommendations).map((category) => {
+              return (
+                <CategoryRow
+                  categoryData={recommendations[category]}
+                  category={category}
+                />
+              );
+            })}
         </div>
       </div>
     </div>
@@ -41,3 +45,9 @@ function Home() {
 }
 
 export default Home;
+
+// Object.keys(recommendations[category]).map((recipe) => {
+//   return (
+//     <DishCard dishData={recommendations[category][recipe]} />
+//   );
+// });
