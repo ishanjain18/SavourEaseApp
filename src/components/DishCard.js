@@ -8,7 +8,14 @@ import Typography from "@mui/material/Typography";
 export default function DishCard({ dishData }) {
   return (
     <Card
-      sx={{ minWidth: 345, width: 345, height: 310, padding: 1, margin: 2 }}
+      sx={{
+        minWidth: 325,
+        width: 325,
+        minHeight: 330,
+        padding: 1,
+        margin: 2,
+        position: "relative",
+      }}
     >
       <CardMedia
         sx={{ height: 140 }}
@@ -23,8 +30,8 @@ export default function DishCard({ dishData }) {
           {dishData?.Cuisine} | {dishData?.Course} | {dishData?.Diet}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
+      <CardActions sx={{ position: "absolute", bottom: 0 }}>
+        <Button size="small">View More</Button>
       </CardActions>
     </Card>
   );

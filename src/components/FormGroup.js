@@ -4,6 +4,12 @@ import { getFormOptions, fetchRecommendations } from "../services/APIService";
 import NumberInput from "../components/NumberInput.js";
 import { Button } from "@mui/material";
 import { getRandomNumber } from "../utilities/HelperFunctions";
+import {
+  MIN_TIME,
+  MAX_TIME,
+  MIN_SERVINGS,
+  MAX_SERVINGS,
+} from "../utilities/constants";
 
 function FormGroup({ recommendations, setRecommendations }) {
   useEffect(() => {
@@ -35,7 +41,6 @@ function FormGroup({ recommendations, setRecommendations }) {
 
   const handleSumbit = () => {
     fetchRecommendations(JSON.stringify(requestData)).then((data) => {
-      console.log(data);
       setRecommendations(data);
     });
   };
@@ -50,15 +55,15 @@ function FormGroup({ recommendations, setRecommendations }) {
       <NumberInput
         value={time}
         setValue={setTime}
-        min={0}
-        max={180}
+        min={MIN_TIME}
+        max={MAX_TIME}
         label="Minutes to prepare"
       />
       <NumberInput
         value={servings}
         setValue={setServings}
-        min={1}
-        max={15}
+        min={MIN_SERVINGS}
+        max={MAX_SERVINGS}
         label="Enter Number of People"
       />
       <MultiSelect

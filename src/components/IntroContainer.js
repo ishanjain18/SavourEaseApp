@@ -29,7 +29,7 @@ function IntroContainer() {
         </li>
         <li>
           <strong>Enjoy Your Cooking!:</strong> Once you've found a dish that
-          piques your interest, simply click on the View More button to learn
+          piques your interest, simply click on the "View More" button to learn
           more about your chosen dish and how to prepare it!
         </li>
       </ol>

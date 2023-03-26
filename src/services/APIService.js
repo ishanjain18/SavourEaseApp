@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000";
+import { BASE_URL } from "../utilities/constants";
 
 export async function fetchRecommendations(body) {
   return fetch(`${BASE_URL}/recommendations`, {
