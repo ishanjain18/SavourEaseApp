@@ -33,6 +33,7 @@ function Home() {
             Object.keys(recommendations).map((category) => {
               return (
                 <CategoryRow
+                  key={category}
                   categoryData={recommendations[category]}
                   category={category}
                 />

@@ -1,17 +1,20 @@
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import RecipeModal from "./RecipeModal";
 
 export default function DishCard({ dishData }) {
+  const [open, setOpen] = useState(false);
   return (
     <Card
       sx={{
         minWidth: 325,
         width: 325,
-        minHeight: 330,
+        minHeight: 335,
         padding: 1,
         margin: 2,
         position: "relative",
@@ -31,7 +34,10 @@ export default function DishCard({ dishData }) {
         </Typography>
       </CardContent>
       <CardActions sx={{ position: "absolute", bottom: 0 }}>
-        <Button size="small">View More</Button>
+        <Button size="small" onClick={() => setOpen(true)}>
+          View More
+        </Button>
+        <RecipeModal dishData={dishData} open={open} setOpen={setOpen} />
       </CardActions>
     </Card>
   );

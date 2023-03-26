@@ -28,9 +28,16 @@ const CategoryRow = ({ categoryData, category }) => {
   }, [category]);
   return (
     <div style={{}}>
-      <h3 style={{ fontWeight: "400", fontSize: "24px", paddingLeft: 16 }}>
+      <p
+        style={{
+          color: "rgba(0, 0, 0, 0.61)",
+          fontWeight: "600",
+          fontSize: "24px",
+          paddingLeft: 16,
+        }}
+      >
         {headerText}
-      </h3>
+      </p>
       <div
         style={{
           display: "flex",
@@ -42,7 +49,7 @@ const CategoryRow = ({ categoryData, category }) => {
         }}
       >
         {Object.keys(categoryData).map((recipe) => {
-          return <DishCard dishData={categoryData[recipe]} />;
+          return <DishCard key={recipe} dishData={categoryData[recipe]} />;
         })}
       </div>
     </div>
