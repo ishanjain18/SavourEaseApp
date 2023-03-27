@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . .
 
-# Expose port 8000 for the application to listen on
-EXPOSE 8000
+# Expose port 80 for the application to listen on
+EXPOSE 80
 
 # Set the default command to run the application
-CMD ["uvicorn", "main:app", "--reload","--host", "localhost", "--port", "8000"]
+CMD python -m uvicorn main:app --reload --host 0.0.0.0 --port 80
