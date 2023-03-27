@@ -1,21 +1,21 @@
 import "../static/TopBar.css";
 import logo from "../static/brand_logo.png";
-import SearchComponent from "./Search";
-import { useEffect, useState } from "react";
+// import SearchComponent from "./Search";
+// import { useEffect, useState } from "react";
 
 function TopBar() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [suggestions, setSuggestions] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [suggestions, setSuggestions] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("http://127.0.0.1:8000/search");
-      const data = await response.json();
-      setSuggestions(data);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch("http://localhost:8000/search");
+  //     const data = await response.json();
+  //     setSuggestions(data);
+  //     setIsLoading(false);
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <div className="top-bar">

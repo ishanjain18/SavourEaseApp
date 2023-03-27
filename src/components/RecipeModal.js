@@ -39,6 +39,7 @@ export default function ScrollDialog({ open, setOpen, dishData }) {
             id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
+            component={"span"}
           >
             <Typography variant="body" color="text.secondary">
               <strong>Cuisine:</strong> {dishData?.Cuisine} <br></br>
@@ -55,6 +56,7 @@ export default function ScrollDialog({ open, setOpen, dishData }) {
             {dishData?.FullIngredients.split(",").map((ingred) => {
               return (
                 <li
+                  key={ingred}
                   style={{ margin: "8px 0px", fontSize: "1rem", lineHeight: 1 }}
                 >
                   {ingred}
