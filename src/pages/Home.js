@@ -5,10 +5,12 @@ import { useState } from "react";
 import FormGroup from "../components/FormGroup";
 import CategoryRow from "../components/CategoryRow.js";
 import IntroContainer from "../components/IntroContainer";
+import { Backdrop } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 function Home() {
   const [recommendations, setRecommendations] = useState({});
-
+  const [isLoading, setIsLoading] = useState(true);
   const [showCard, setShowCard] = useState(false);
 
   useEffect(() => {
@@ -20,9 +22,14 @@ function Home() {
   return (
     <div className="home-body">
       <TopBar />
+      <Backdrop sx={{ color: "#ffb545", zIndex: 2 }} open={isLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div className="main">
         <div className="form-col">
           <FormGroup
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
             recommendations={recommendations}
             setRecommendations={setRecommendations}
           />
@@ -46,9 +53,3 @@ function Home() {
 }
 
 export default Home;
-
-// Object.keys(recommendations[category]).map((recipe) => {
-//   return (
-//     <DishCard dishData={recommendations[category][recipe]} />
-//   );
-// });
