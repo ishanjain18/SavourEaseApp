@@ -9,11 +9,25 @@ Tech Stack - Python (FastAPI), ReactJS, Material-UI, Jupyter Notebook, Scikit-le
 
 ## Deployment Instructions
 
-Inside root project folder, run the following command
+Clone the project
 
-### `docker-compose up`
+```bash
+  git clone https://github.com/ishanjain18/SavourEaseApp.git
+```
 
-App will be running on http://localhost:3000
+Go to the project directory
+
+```bash
+  cd SavourEaseApp
+```
+
+Start the application using Docker Compose:
+
+```bash
+  docker-compose up
+```
+
+Navigate to http://localhost:3000 in your web browser to access the application.
 
 ## Dataset
 
