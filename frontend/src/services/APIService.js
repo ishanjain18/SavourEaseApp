@@ -17,7 +17,3 @@ export async function getFormOptions() {
     .then((res) => res.json())
     .then((data) => data);
 }
-
-const printer = async () => {
-  fetchRecommendations().then((res) => console.log(res));
-};
