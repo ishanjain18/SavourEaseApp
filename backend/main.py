@@ -19,12 +19,14 @@ class FormInput(BaseModel):
     diet: List[str] = []
     cuisine: List[str] = []
     
-
+# 1. Initialize FastAPI app.
 app = FastAPI()
 
+# 2. Loading CSV recipe data into Pandas dataframe.
 df = pd.read_csv('./datasets/data.csv')
 encoded_df = pd.read_csv('./datasets/encoded.csv')
 
+# 3. Allow all origins to access backend.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -34,7 +36,7 @@ app.add_middleware(
 )
 
 
-
+# 4. Route to populate the form select input with choices for Diet, Cuisine and Course.
 @app.get("/options")
 def get_options():
 
@@ -45,7 +47,7 @@ def get_options():
         for ingred in ast.literal_eval(ing_list):
             ingredient_categories[ingred] = ingredient_categories.get(ingred, 0) + 1
     
-    # filtering ingredients based on frequency in dataset 
+    # Filtering ingredients based on frequency in dataset to avoid excess 
     min_freq = 15
     ingredient_categories = dict(filter(lambda x : x[1] > min_freq, ingredient_categories.items()))
     ingredient_categories = dict(sorted(ingredient_categories.items(), key=lambda x: x[1], reverse=True))
@@ -55,17 +57,16 @@ def get_options():
         categories[category.lower()] = sorted(df[category].unique().tolist())
     return categories
 
-
+# 5. Returns list of recipe names to enable autocomplete search bar.
 @app.get("/search")
 def get_search_options():
     return df['RecipeName'].tolist()
 
-
+# 6. Apply cosine similarity algorithm to one hot encoded input vector and return recommendations
 @app.post('/recommendations')
 def fetch_recommendations(form: FormInput):
 
-    # build form input into a encoded vector
-
+    # build form input into a one-hot encoded vector
     # 1. by similar dish 
     # 2. by course 
     # 3. by diet
@@ -94,6 +95,10 @@ def fetch_recommendations(form: FormInput):
     
     response = {}
     
+    # Recommendations filtered into 4 categories
+    # 1. Similar Dish - All input processed as it is
+    # 2. Course/Diet/Cuisine/Ingredients - Muted all input except Course/Diet/Cuisine/Ingredients input respectively
+    
     for i, category in enumerate(['similar dish','course','diet','cuisine','ingredients']):
         
         for col in encoded_df.columns[2:]:
@@ -113,6 +118,7 @@ def fetch_recommendations(form: FormInput):
     
     return response
 
+# 7. Route for specific recipe details 
 @app.get('/recipe')
 def get_recipe(recipe: Recipe):
 
